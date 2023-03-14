@@ -18,12 +18,10 @@ store.dispatch(hydrate(basket));
 
 const MyApp = ({ Component, pageProps }) => {
   return (
-    <SessionProvider session={pageProps.session}>
-      <Provider store={store}>
-        <Component {...pageProps} />
-        <ToastContainer transition={Zoom} />
-      </Provider>
-    </SessionProvider>
+    <Provider store={store}>
+      <Component {...pageProps} />
+      <ToastContainer transition={Zoom} />
+    </Provider>
   );
 };
 

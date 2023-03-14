@@ -2,11 +2,16 @@ import Head from 'next/head';
 import Banner from '../components/Banner';
 import Header from '../components/Header';
 import ProductFeed from '../components/ProductFeed';
-import { getSession } from 'next-auth/react';
+// import { getSession } from 'next-auth/react';
+import { getSession } from '../utils/auth';
 import { useState } from 'react';
+// import { useSession } from 'next-auth/react';
+import { useSession } from '../hooks/auth';
 
-export default function Home({ products }) {
+export default function Home({ products, session: sessionFromServer }) {
+  const { session, loading } = useSession();
   const [filteredProducts, setProducts] = useState(products);
+  if (loading) return <h1>Loading...</h1>;
 
   function filterProducts(searchText) {
     const matchedProducts = products.filter((product) =>
@@ -16,7 +21,7 @@ export default function Home({ products }) {
   }
 
   return (
-    <div className="bg-gray-100 ">
+    <div className='bg-gray-100 '>
       <Head>
         <title>Amazon 2.0</title>
       </Head>
@@ -24,14 +29,14 @@ export default function Home({ products }) {
       {/* Header */}
       <Header onSearchValue={filterProducts} />
 
-      <main className="max-w-screen-2xl mx-auto">
+      <main className='max-w-screen-2xl mx-auto'>
         <Banner />
 
         {/* Product Feed */}
         {filteredProducts.length > 0 ? (
           <ProductFeed products={filteredProducts} />
         ) : (
-          <h1 className="text-center text-2xl py-4">
+          <h1 className='text-center text-2xl py-4'>
             🙁 No matching products…
           </h1>
         )}
