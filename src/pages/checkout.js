@@ -1,7 +1,8 @@
 import Image from 'next/image';
+import { useContext } from 'react';
 import Header from '../components/Header';
 import CheckoutProduct from '../components/CheckoutProduct';
-import { useSession } from 'next-auth/react';
+// import { useSession } from 'next-auth/react';
 import { useSelector } from 'react-redux';
 import { selectItems, selectTotal } from '../slices/basketSlice';
 import { groupBy } from 'lodash';
@@ -10,49 +11,48 @@ import Currency from 'react-currency-formatter';
 import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios';
 
-const stripePromise = loadStripe(process.env.stripe_public_key);
+import { AuthContext } from '../contexts/authContext';
+
+// const stripePromise = loadStripe(process.env.stripe_public_key);
 
 function Checkout() {
   const items = useSelector(selectItems);
   const total = useSelector(selectTotal);
-  const { data: session } = useSession();
+  const { session, loading, logout } = useContext(AuthContext);
+  console.log({ session });
+
   const groupedItems = Object.values(groupBy(items, 'id'));
 
   async function createCheckoutSession() {
-    const stripe = await stripePromise;
-
-    // Call the backend to create a checkout session...
-    const checkoutSession = await axios.post('/api/create-checkout-session', {
-      // body
-      items,
-      email: session.user.email,
-    });
-
-    // After created a session, redirect the user to Stripe Checkout
-    const result = await stripe.redirectToCheckout({
-      sessionId: checkoutSession.data.id,
-    });
-
-    if (result.error) {
-      alert(result.error.message); // @todo : Improve that!
-    }
+    // const stripe = await stripePromise;
+    // // Call the backend to create a checkout session...
+    // const checkoutSession = await axios.post('/api/create-checkout-session', {
+    //   // body
+    //   items,
+    //   email: session.user.email,
+    // });
+    // // After created a session, redirect the user to Stripe Checkout
+    // const result = await stripe.redirectToCheckout({
+    //   sessionId: checkoutSession.data.id,
+    // });
+    // if (result.error) {
+    //   alert(result.error.message); // @todo : Improve that!
+    // }
   }
-
   return (
-    <div className="bg-gray-100">
+    <div className='bg-gray-100'>
       <Header />
-
-      <main className="lg:flex max-w-screen-2xl mx-auto">
+      <main className='lg:flex max-w-screen-2xl mx-auto'>
         {/* Left */}
-        <div className="flex-grow m-5 shadow-sm">
+        <div className='flex-grow m-5 shadow-sm'>
           <Image
-            src="https://links.papareact.com/ikj"
+            src='https://links.papareact.com/ikj'
             width={1020}
             height={250}
-            className="object-contain"
+            className='object-contain'
           />
 
-          <div className="flex flex-col p-5 space-y-50 bg-white">
+          <div className='flex flex-col p-5 space-y-50 bg-white'>
             <h1
               className={`text-3xl ${
                 items.length > 0 ? 'border-b pb-4' : 'pb-2'
@@ -68,7 +68,7 @@ function Checkout() {
                 <CSSTransition
                   key={group[0].image}
                   timeout={500}
-                  classNames="item"
+                  classNames='item'
                 >
                   <CheckoutProduct
                     id={group[0].id}
@@ -91,19 +91,19 @@ function Checkout() {
         <CSSTransition
           in={items.length > 0}
           timeout={300}
-          classNames="disappear"
+          classNames='disappear'
           unmountOnExit
         >
-          <div className="flex flex-col bg-white p-10 shadow-md">
-            <h2 className="whitespace-nowrap">
+          <div className='flex flex-col bg-white p-10 shadow-md'>
+            <h2 className='whitespace-nowrap'>
               Subtotal ({items.length} items):{' '}
-              <span className="font-bold">
-                <Currency quantity={total * 71} currency="INR" />
+              <span className='font-bold'>
+                <Currency quantity={total * 71} currency='INR' />
               </span>
             </h2>
 
             <button
-              role="link"
+              role='link'
               onClick={createCheckoutSession}
               disabled={!session}
               className={`button mt-2 ${

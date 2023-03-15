@@ -1,12 +1,14 @@
-import { useState } from 'react';
-import { login } from '../../utils/auth';
+import { useState, useContext } from 'react';
 import { useRouter } from 'next/router';
+
+import { AuthContext } from '../../contexts/authContext';
 
 export default function SignIn() {
   const [loginDetails, setLoginDetails] = useState({
     username: '',
     password: '',
   });
+  const { login } = useContext(AuthContext);
   const router = useRouter();
   return (
     <div>

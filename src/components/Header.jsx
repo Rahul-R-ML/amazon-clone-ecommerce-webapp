@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Sidebar from './Sidebar';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import {
   MenuIcon,
@@ -11,13 +11,13 @@ import { useSelector } from 'react-redux';
 import { selectItems } from '../slices/basketSlice';
 // import { useSession, signIn, signOut } from 'next-auth/react';
 
-import { useSession } from '../hooks/auth';
+import { AuthContext } from '../contexts/authContext';
 
 function Header(props) {
   const router = useRouter();
+  const { session, loading, logout } = useContext(AuthContext);
   const [sidebar, setSidebar] = useState(false);
   const items = useSelector(selectItems);
-  const { session, loading, logout } = useSession();
   if (loading) return null;
 
   return (
