@@ -1,4 +1,4 @@
-# Amazon-Clone (updated)
+# Amazon-Clone (updated new)
 
 ### [Live Site](https://amazon-next-saketkothari.vercel.app)
 
