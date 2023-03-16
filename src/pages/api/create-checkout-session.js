@@ -11,7 +11,6 @@ export default async (req, res) => {
   const groupedItems = Object.values(groupBy(items, 'id'));
 
   const transformedItems = groupedItems.map((group) => ({
-    description: group[0].description,
     quantity: group.length,
     price_data: {
       currency: 'inr',
@@ -19,6 +18,7 @@ export default async (req, res) => {
       product_data: {
         name: group[0].title,
         images: [group[0].image],
+        description: group[0].description,
       },
     },
   }));
@@ -39,7 +39,11 @@ export default async (req, res) => {
   // Create a checkout session with the order amount and currency
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
-    shipping_rates: ['shr_1MRqezSCmRpGXuQS0uzV1AVT'], // Created fees in Stripe's dashboard
+    shipping_options: [
+      {
+        shipping_rate: 'shr_1MlvBfSJN4V83zwHf9kMbokb', // Created fees in Stripe's dashboard
+      },
+    ],
     shipping_address_collection: {
       allowed_countries: ['IN', 'GB', 'US', 'CA', 'FR'], // RTFM!
     },
