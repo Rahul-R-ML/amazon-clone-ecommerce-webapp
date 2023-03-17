@@ -1,5 +1,5 @@
-import { useSession } from '../hooks/auth';
-import { db } from '../../firebase';
+import { db } from '../utils/db';
+
 import Header from '../components/Header';
 import Order from '../components/Order';
 import moment from 'moment';
@@ -12,7 +12,6 @@ import { AuthContext } from '../contexts/authContext';
 function Orders({ orders }) {
   const router = useRouter();
   const { session } = useContext(AuthContext);
-  console.log(session);
 
   return (
     <div>
@@ -80,7 +79,6 @@ export async function getServerSideProps(context) {
     return { props: {} };
   }
 
-  // Firebase DB
   const stripeOrders = await db
     .collection('AMAZON_users')
     .doc(session.username)
