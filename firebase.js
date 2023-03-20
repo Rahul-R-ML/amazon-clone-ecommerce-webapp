@@ -14,6 +14,6 @@ const firebaseConfig = {
 const app = !firebase.apps.length
   ? firebase.initializeApp(firebaseConfig)
   : firebase.app();
-console.log('Firebase client called');
+
 export const db = app.firestore();
 export default db;

@@ -1,5 +1,5 @@
-import db from '../../firebase';
-// import { db } from '../utils/db';
+// import db from '../../firebase';
+import { db } from '../utils/db';
 import Header from '../components/Header';
 import Order from '../components/Order';
 import moment from 'moment';
