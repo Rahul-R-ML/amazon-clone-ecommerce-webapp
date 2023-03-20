@@ -1,5 +1,5 @@
-// import db from '../../firebase';
-import { db } from '../utils/db';
+import db from '../../firebase';
+// import { db } from '../utils/db';
 import Header from '../components/Header';
 import Order from '../components/Order';
 import moment from 'moment';
@@ -70,6 +70,7 @@ export default Orders;
 // eg "Please calculate something and send it to the user next"
 // Here, it's executed by Node.js
 export async function getServerSideProps(context) {
+  console.log('getServerSideProps called');
   const session = await getSession(context);
   const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
