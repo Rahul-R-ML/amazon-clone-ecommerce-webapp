@@ -9,7 +9,8 @@ import { getSession } from '../utils/auth';
 import { useContext } from 'react';
 import { AuthContext } from '../contexts/authContext';
 
-function Orders({ orders }) {
+function Orders(props) {
+  const orders = props.orders;
   const router = useRouter();
   const { session } = useContext(AuthContext);
 
