@@ -40,4 +40,4 @@ yarn-error.log*
 .prettierrc
 
 permissions.json
-service_acc_key.json
+# service_acc_key.json
