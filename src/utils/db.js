@@ -10,7 +10,7 @@ const app = !admin.apps.length
           ? process.env.FIREBASE_ADMIN_PRIVATE_KEY.replace(/\\n/gm, '\n')
           : undefined,
         clientEmail: process.env.FIREBASE_ADMIN_CLIENT_EMAIL,
-        client_id: process.env.FIREBASE_ADMIN_CLIENT_ID,
+        clientId: process.env.FIREBASE_ADMIN_CLIENT_ID,
         auth_uri: 'https://accounts.google.com/o/oauth2/auth',
         token_uri: 'https://oauth2.googleapis.com/token',
         auth_provider_x509_cert_url:
