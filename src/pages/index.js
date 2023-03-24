@@ -12,6 +12,7 @@ export default function Home({ products, session: sessionFromServer }) {
   const { session, loading } = useSession();
   const [filteredProducts, setProducts] = useState(products);
   if (loading) return <h1>Loading...</h1>;
+  if (!products) return <h1>No products available rn...</h1>;
 
   function filterProducts(searchText) {
     const matchedProducts = products.filter((product) =>
@@ -49,15 +50,21 @@ export default function Home({ products, session: sessionFromServer }) {
 // eg "Please calculate something on the server first and send it to the user next"
 // Here, it's executed by Node.js
 export async function getServerSideProps(context) {
-  const session = await getSession(context);
-  const products = await fetch('https://fakestoreapi.com/products').then(
-    (res) => res.json()
-  );
-
-  return {
-    props: {
-      products: products,
-      session: session,
-    },
-  };
+  try {
+    const session = await getSession(context);
+    const products = await fetch('https://fakestoreapi.com/products').then(
+      (res) => res.json()
+    );
+    return {
+      props: {
+        products: products,
+        session: session,
+      },
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      props: {},
+    };
+  }
 }

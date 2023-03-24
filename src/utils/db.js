@@ -8,5 +8,4 @@ const app = !admin.apps.length
     })
   : admin.app();
 export const db = app.firestore();
-console.log('Firebase admin called');
 db.timestamp = admin.firestore.FieldValue.serverTimestamp;
