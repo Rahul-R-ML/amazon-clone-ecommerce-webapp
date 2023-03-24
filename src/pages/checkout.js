@@ -2,43 +2,22 @@ import Image from 'next/image';
 import { useContext } from 'react';
 import Header from '../components/Header';
 import CheckoutProduct from '../components/CheckoutProduct';
-// import { useSession } from 'next-auth/react';
 import { useSelector } from 'react-redux';
 import { selectItems, selectTotal } from '../slices/basketSlice';
 import { groupBy } from 'lodash';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import Currency from 'react-currency-formatter';
-import { loadStripe } from '@stripe/stripe-js';
-import axios from 'axios';
+import Link from 'next/link';
 
 import { AuthContext } from '../contexts/authContext';
-
-const stripePromise = loadStripe(process.env.stripe_public_key);
 
 function Checkout() {
   const items = useSelector(selectItems);
   const total = useSelector(selectTotal);
-  const { session, loading, logout } = useContext(AuthContext);
+  const { session } = useContext(AuthContext);
 
   const groupedItems = Object.values(groupBy(items, 'id'));
 
-  async function createCheckoutSession() {
-    const stripe = await stripePromise;
-    // Call the backend to create a checkout session...
-    const checkoutSession = await axios.post('/api/create-checkout-session', {
-      // body
-      items,
-      email: session.username,
-    });
-    // After created a session, redirect the user to Stripe Checkout
-    const result = await stripe.redirectToCheckout({
-      sessionId: checkoutSession.data.id,
-    });
-    console.log(result);
-    if (result.error) {
-      alert(result.error.message); // @todo : Improve that!
-    }
-  }
   return (
     <div className='bg-gray-100'>
       <Header />
@@ -101,18 +80,18 @@ function Checkout() {
                 <Currency quantity={total * 71} currency='INR' />
               </span>
             </h2>
-
-            <button
-              role='link'
-              onClick={createCheckoutSession}
-              disabled={!session}
-              className={`button mt-2 ${
-                !session &&
-                'from-gray-300 to-gray-500 border-gray-200 text-gray-300 cursor-not-allowed hover:from-gray-300'
-              }`}
-            >
-              {!session ? 'Sign in to checkout' : 'Proceed to checkout'}
-            </button>
+            <Link href={'/payments'}>
+              <button
+                role='link'
+                disabled={!session}
+                className={`button mt-2 ${
+                  !session &&
+                  'from-gray-300 to-gray-500 border-gray-200 text-gray-300 cursor-not-allowed hover:from-gray-300'
+                }`}
+              >
+                {!session ? 'Sign in to checkout' : 'Proceed to checkout'}
+              </button>
+            </Link>
           </div>
         </CSSTransition>
       </main>
