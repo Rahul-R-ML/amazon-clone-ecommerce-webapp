@@ -6,7 +6,6 @@ const path = require('path');
 
 export default async (req, res) => {
   const { items, email } = req.body;
-  // console.log(items, email);
 
   const groupedItems = Object.values(groupBy(items, 'id'));
 
@@ -25,7 +24,11 @@ export default async (req, res) => {
 
   // Instead of sending an array of multiple similar values, just group them to save space in session
   const groupedImages = Object.values(
-    groupBy(items.map((item) => path.basename(item.image)))
+    groupBy(
+      items.map((item) => {
+        return item.image.split('/').pop();
+      })
+    )
   ).map((group) => [group.length, group[0]]);
   /*
     This gives us an array like this (shorter for storing into the session):
@@ -41,7 +44,7 @@ export default async (req, res) => {
     payment_method_types: ['card'],
     shipping_options: [
       {
-        shipping_rate: 'shr_1MlvBfSJN4V83zwHf9kMbokb', // Created fees in Stripe's dashboard
+        shipping_rate: 'shr_1MpAeOSF98ApnfZuDwRHjm9p', // Created fees in Stripe's dashboard
       },
     ],
     shipping_address_collection: {

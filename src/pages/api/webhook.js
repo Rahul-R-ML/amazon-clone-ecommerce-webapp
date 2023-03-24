@@ -9,7 +9,6 @@ const fulfillOrder = async (session) => {
     const images = JSON.parse(session.metadata.images).map((image) =>
       JSON.stringify(image)
     );
-    // console.log("Fulfilling order", session);
     return db
       .collection('AMAZON_users')
       .doc(session.metadata.email)

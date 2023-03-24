@@ -70,7 +70,6 @@ export default Orders;
 // eg "Please calculate something and send it to the user next"
 // Here, it's executed by Node.js
 export async function getServerSideProps(context) {
-  console.log('getServerSideProps called');
   const session = await getSession(context);
   const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
@@ -88,19 +87,24 @@ export async function getServerSideProps(context) {
     .get();
 
   // Stripe orders
+
   const orders = await Promise.all(
-    stripeOrders.docs.map(async (order) => ({
-      id: order.id,
-      amount: order.data().amount,
-      amountShipping: order.data().amount_shipping,
-      images: order.data().images,
-      timestamp: moment(order.data().timestamp.toDate()).unix(),
-      items: (
-        await stripe.checkout.sessions.listLineItems(order.id, {
-          limit: 100,
-        })
-      ).data,
-    }))
+    stripeOrders.docs.map(async (order) => {
+      let items = [];
+      if (order.id.includes('UPI')) {
+        items = order.data().items;
+      } else {
+        items = (await stripe.checkout.sessions.listLineItems(order.id)).data;
+      }
+      return {
+        id: order.id,
+        amount: order.data().amount,
+        amountShipping: order.data().amount_shipping,
+        images: order.data().images,
+        timestamp: moment(order.data().timestamp.toDate()).unix(),
+        items,
+      };
+    })
   );
 
   return { props: { orders } };

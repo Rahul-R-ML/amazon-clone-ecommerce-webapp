@@ -7,6 +7,8 @@ import { ToastContainer, Zoom } from 'react-toastify';
 import StorageService from '../services/StorageService';
 import { hydrate } from '../slices/basketSlice';
 
+import '../components/styles/Accordion.css';
+
 import { SessionProvider } from '../contexts/authContext';
 
 store.subscribe(() => {
