@@ -74,9 +74,23 @@
   color: #333;
   transform: translateY(-5px);
 }
+.btn-danger:hover {
+  color: #b71010;
+}
+
 .btn:active {
   transform: translateY(5px);
 }
+.btn-disabled,
+.btn-disabled:hover,
+.btn-disabled:active {
+  background-color: #ccc;
+  color: #333;
+  transform: none;
+  transition: none;
+  cursor: not-allowed;
+}
+
 .input {
   padding: 10px;
   border: 1px solid #ccc;

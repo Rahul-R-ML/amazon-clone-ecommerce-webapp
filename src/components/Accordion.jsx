@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import { useRouter } from 'next/router';
 
-function Accordion({ session, accordionData }) {
+function Accordion({ session, data }) {
   const [accordion, setAccordion] = useState(-1);
-  const router = useRouter();
   function toggleAccordion(index, event) {
     if (
       accordion == index &&
@@ -16,38 +14,33 @@ function Accordion({ session, accordionData }) {
 
   return (
     <>
-      <div className='container'>
-        <div>
-          <h1 className='accordion-title'>Payment Modes</h1>
-        </div>
-        <div className='accordion__faq'>
-          {accordionData.map((item, index) => {
-            return (
-              <div
-                key={index}
-                className='accordion__faq__item'
-                onClick={(e) => toggleAccordion(index, e)}
-              >
-                <div className='accordion__faq__item__title'>
-                  <h3 className='accordion__faq__item__title__heading'>
-                    {item.title}
-                  </h3>
-                  <div className='accordion__faq__item__title__divider'>
-                    {index == accordion ? '-' : '+'}
+      <div className='accordion__faq'>
+        {data.map((item, index) => {
+          return (
+            <div
+              key={index}
+              className='accordion__faq__item'
+              onClick={(e) => toggleAccordion(index, e)}
+            >
+              <div className='accordion__faq__item__title'>
+                <h3 className='accordion__faq__item__title__heading'>
+                  {item.title}
+                </h3>
+                <div className='accordion__faq__item__title__divider'>
+                  {index == accordion ? '-' : '+'}
+                </div>
+              </div>
+              {index == accordion && (
+                <div className='accordion__faq__item__content'>
+                  <p>{item.content}</p>
+                  <div className='accordion__faq__item__content__component'>
+                    {<item.component session={session} />}
                   </div>
                 </div>
-                {index == accordion && (
-                  <div className='accordion__faq__item__content'>
-                    <p>{item.content}</p>
-                    <div className='accordion__faq__item__content__component'>
-                      {<item.component session={session} />}
-                    </div>
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
+              )}
+            </div>
+          );
+        })}
       </div>
     </>
   );

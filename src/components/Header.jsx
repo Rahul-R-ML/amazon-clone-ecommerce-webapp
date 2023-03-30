@@ -12,11 +12,13 @@ import { selectItems } from '../slices/basketSlice';
 // import { useSession, signIn, signOut } from 'next-auth/react';
 
 import { AuthContext } from '../contexts/authContext';
+import Dropdown from './Dropdown';
 
 function Header(props) {
   const router = useRouter();
   const { session, loading, logout } = useContext(AuthContext);
   const [sidebar, setSidebar] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   const items = useSelector(selectItems);
   if (loading) return null;
 
@@ -31,7 +33,7 @@ function Header(props) {
               onClick={() => router.push('/')}
               width={150}
               height={40}
-              alt='Amazon-Logo'
+              alt='Amazon-mock-Logo'
               objectFit='contain'
               className='cursor-pointer active:transform active:scale-90'
             />
@@ -57,19 +59,38 @@ function Header(props) {
           {/* Right */}
           <div className='text-white flex items-center text-xs space-x-6 mx-6 whitespace-nowrap'>
             <div
-              onClick={
-                !session
-                  ? () => router.push('/auth/signIn')
-                  : () => {
-                      logout();
-                    }
-              }
-              className='link cursor-pointer'
+              onClick={() => {
+                setShowMenu(!showMenu);
+              }}
+              className=' cursor-pointer flex justify-center items-center flex-col'
             >
               <p className='hover:underline'>
-                {session ? `Hello, ${session.username}` : 'Sign In'}
+                {session ? `Hello, ${session.username}` : ''}
               </p>
               <p className='font-extrabold md:text-sm'>Account & Lists</p>
+              {showMenu && (
+                <Dropdown
+                  content={
+                    session
+                      ? [
+                          { heading: 'settings', onClick: () => {} },
+                          { heading: 'logout', onClick: logout },
+                        ]
+                      : [
+                          {
+                            heading: 'Sign In',
+                            onClick: () => router.push('/auth/login'),
+                          },
+                          {
+                            heading: 'Sign Up',
+                            onClick: () => router.push('/auth/signup'),
+                          },
+                        ]
+                  }
+                  show={showMenu}
+                  setShow={setShowMenu}
+                />
+              )}
             </div>
             <div className='link' onClick={() => router.push('/orders')}>
               <p>Returns</p>
@@ -87,6 +108,7 @@ function Header(props) {
                 {items.length}
               </span>
               <ShoppingCartIcon className='h-10' />
+
               <p className='hidden md:inline font-extrabold md:text-sm mt-2'>
                 Basket
               </p>
@@ -104,7 +126,7 @@ function Header(props) {
             All
           </p>
           <p className='link'>Prime Video</p>
-          <p className='link'>Amazon Business</p>
+          <p className='link'>Amazon-mock Business</p>
           <p className='link'>Today's Deals</p>
           <p className='link hidden lg:inline-flex'>Electronics</p>
           <p className='link hidden lg:inline-flex'>Foods & Grocery</p>

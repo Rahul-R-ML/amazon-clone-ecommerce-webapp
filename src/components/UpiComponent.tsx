@@ -1,12 +1,11 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { add, groupBy } from 'lodash';
+import { groupBy } from 'lodash';
 import { FadeLoader } from 'react-spinners';
 import { useSelector, useDispatch } from 'react-redux';
 import { clearBasket, selectItems, selectTotal } from '../slices/basketSlice';
 import { dbClient } from '../../firebase';
 import { v4 as uuid } from 'uuid';
-import { collection, addDoc } from 'firebase/firestore';
 
 export default function UpiComponent({ session: authUser }) {
   // -1 invalid
@@ -18,7 +17,6 @@ export default function UpiComponent({ session: authUser }) {
   const dispatch = useDispatch();
   const router = useRouter();
   const items = useSelector(selectItems);
-  const total = useSelector(selectTotal);
 
   const groupedItems = Object.values(groupBy(items, 'id'));
   const transformedItems = groupedItems.map((group) => ({
