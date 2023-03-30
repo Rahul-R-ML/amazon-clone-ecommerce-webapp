@@ -8,9 +8,9 @@ export const AuthContext = React.createContext({
 });
 
 export const SessionProvider = ({ children }) => {
-  const { session, loading, logout, login } = useSession();
+  const { session, loading, logout, login, signup } = useSession();
   return (
-    <AuthContext.Provider value={{ session, loading, logout, login }}>
+    <AuthContext.Provider value={{ session, loading, logout, login, signup }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,4 +1,4 @@
-import { getSession, logout, login } from '../utils/auth';
+import { getSession, logout, login, signup } from '../utils/auth';
 import { useState, useEffect } from 'react';
 
 export const useSession = () => {
@@ -17,11 +17,22 @@ export const useSession = () => {
     setSession(null);
   }
   function _login(...args) {
-    login(...args);
+    const user = login(...args);
+    if (!user) return null;
     const _session = getSession();
     if (_session) {
       setSession({ ..._session });
     }
+    return user;
   }
-  return { session, loading, logout: _logout, login: _login };
+  function _signup(userDetails) {
+    signup(userDetails);
+  }
+  return {
+    session,
+    loading,
+    logout: _logout,
+    login: _login,
+    signup: _signup,
+  };
 };

@@ -19,4 +19,7 @@
   .growing-hover {
     @apply transition-transform duration-300 transform origin-bottom scale-100 hover:scale-105;
   }
+  input {
+    @apply ring-2 ring-[#ff9900] rounded-md p-2 w-full;
+  }
 }

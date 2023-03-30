@@ -26,9 +26,33 @@ export const getSession = (context = null) => {
   }
 };
 
+export const getUsers = () => {
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  return users;
+};
+
 export const login = (username, password) => {
-  storeSession({ username, password });
+  const users = getUsers();
+  const user = users.find((user) => {
+    return user.username === username && user.password === password;
+  });
+  if (user) {
+    storeSession({ username, password });
+    return user;
+  }
+  return null;
 };
 export const logout = (router) => {
   removeSession();
+};
+
+export const signup = (userDetails) => {
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  users.push(userDetails);
+  localStorage.setItem('users', JSON.stringify(users));
+};
+
+export const validateEmail = (email) => {
+  const re = /\S+@\S+\.\S+/;
+  return re.test(email);
 };

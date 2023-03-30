@@ -1,5 +1,5 @@
 {
-  "name": "amazon-clone",
+  "name": "amazon-mock-clone",
   "version": "1.0.0",
   "scripts": {
     "dev": "next",
