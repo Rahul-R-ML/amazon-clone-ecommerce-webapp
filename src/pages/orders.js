@@ -15,9 +15,6 @@ function Orders(props) {
   const [orders, setOrders] = useState(props.orders);
   const router = useRouter();
   const { session } = useContext(AuthContext);
-  useEffect(() => {
-    console.log('orders changed');
-  }, [orders]);
 
   return (
     <div>

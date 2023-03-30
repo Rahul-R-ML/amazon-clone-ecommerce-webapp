@@ -2,10 +2,14 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
 export default function Modal({ setShowModal, onClose, children, title }) {
-  const [modal, setModal] = useState(false);
   const [isBrowser, setIsBrowser] = useState(false);
   useEffect(() => {
+    console.log('here');
     setIsBrowser(true);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
   }, []);
   const handleCloseClick = (e) => {
     e.preventDefault();
@@ -21,7 +25,7 @@ export default function Modal({ setShowModal, onClose, children, title }) {
           }
           setShowModal(false);
         }}
-        className='absolute top-0 left-0 w-full h-full flex justify-center items-center bg-[rgba(0,0,0,.4)] z-50'
+        className='fixed top-0 left-0 w-full min-h-full flex justify-center items-center bg-[rgba(0,0,0,.4)] z-50'
       >
         <div data-modal className='bg-[#fff] w-[600px]  p-[25px] rounded-md'>
           <div className='flex justify-end text-[25px]'>

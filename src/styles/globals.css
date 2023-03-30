@@ -20,6 +20,6 @@
     @apply transition-transform duration-300 transform origin-bottom scale-100 hover:scale-105;
   }
   input[type='text'] {
-    @apply ring-2 ring-[#ff9900] rounded-md p-2 w-full;
+    @apply ring-2 ring-[#ff9900] rounded-md p-2;
   }
 }
