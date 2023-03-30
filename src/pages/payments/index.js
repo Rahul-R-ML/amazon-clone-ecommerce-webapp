@@ -25,10 +25,14 @@ export default function Payments() {
   useEffect(() => {
     if (!session) router.push('/checkout');
   }, []);
+  if (!session) return null;
 
   return (
     <div>
-      <Accordion session={session} accordionData={accordionData} />
+      <div>
+        <h1 className='accordion-title'>Payment Modes</h1>
+      </div>
+      <Accordion session={session} data={accordionData} />
     </div>
   );
 }

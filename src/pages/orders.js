@@ -1,4 +1,7 @@
+import { useEffect, useState } from 'react';
+
 import { db } from '../utils/db';
+
 import Header from '../components/Header';
 import Order from '../components/Order';
 import moment from 'moment';
@@ -9,9 +12,12 @@ import { useContext } from 'react';
 import { AuthContext } from '../contexts/authContext';
 
 function Orders(props) {
-  const orders = props.orders;
+  const [orders, setOrders] = useState(props.orders);
   const router = useRouter();
   const { session } = useContext(AuthContext);
+  useEffect(() => {
+    console.log('orders changed');
+  }, [orders]);
 
   return (
     <div>
@@ -48,6 +54,8 @@ function Orders(props) {
           <div className='mt-5 space-y-4'>
             {orders?.map((order) => (
               <Order
+                owner={session.username}
+                orders={orders}
                 key={order.id}
                 id={order.id}
                 amount={order.amount}
@@ -55,6 +63,8 @@ function Orders(props) {
                 images={order.images}
                 timestamp={order.timestamp}
                 items={order.items}
+                isCancelled={order.isCancelled}
+                setOrders={setOrders}
               />
             ))}
           </div>
@@ -103,6 +113,7 @@ export async function getServerSideProps(context) {
         images: order.data().images,
         timestamp: moment(order.data().timestamp.toDate()).unix(),
         items,
+        isCancelled: order.data().isCancelled || false,
       };
     })
   );
