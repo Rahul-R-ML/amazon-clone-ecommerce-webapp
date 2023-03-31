@@ -62,6 +62,7 @@ function Orders(props) {
                 items={order.items}
                 isCancelled={order.isCancelled}
                 setOrders={setOrders}
+                reason={order.reason}
               />
             ))}
           </div>

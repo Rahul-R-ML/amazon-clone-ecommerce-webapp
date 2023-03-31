@@ -18,28 +18,33 @@ function Order({
   owner,
   setOrders,
   orders,
+  reason,
 }) {
   const [showModal, setShowModal] = useState(false);
   const [cancelText, setCancelText] = useState('');
 
   let groupedImages;
   async function handleOrderCancel(session) {
+    const payload = {
+      isCancelled: true,
+    };
+    if (cancelText !== '') {
+      payload.reason = cancelText;
+    }
     try {
       await dbClient
         .collection('AMAZON_users')
         .doc(owner)
         .collection('orders')
         .doc(session.id)
-        .update({
-          isCancelled: true,
-        });
+        .update(payload);
       toast('Order cancelled', {
         type: 'success',
       });
       setOrders(
         orders.map((item) => {
           if (item.id == session.id) {
-            return { ...item, isCancelled: true };
+            return { ...item, isCancelled: true, reason: cancelText };
           }
           return item;
         })
@@ -114,26 +119,34 @@ function Order({
           {isCancelled ? 'Cancelled' : 'Cancel Order'}
         </button>
       </div>
+      {reason && (
+        <div>
+          <p className='text-sm font-sans  ml-2  cursor-default'>
+            <span className='underline p-2 text-gray-500'>
+              Cancelled reason:
+            </span>{' '}
+            <span>{reason}</span>
+          </p>
+        </div>
+      )}
       {showModal && (
         <Modal setShowModal={setShowModal} title={'Cancel Order'}>
           <div className='flex flex-col gap-5'>
             <p className='text-left text-xl'>
               Are you sure you want to cancel this order, This action cannot be
-              undone. Type <span className=' text-2xl font-bold'>cancel</span>{' '}
-              in the perform action?
+              undone.
             </p>
+            <p>Let us know what might have gone wrong 🥲.</p>
             <input
+              placeholder='Feedback...'
               value={cancelText}
               onChange={(e) => setCancelText(e.target.value)}
               type='text'
-              name=''
-              id=''
             />
             <button
-              disabled={cancelText == 'cancel' ? false : true}
-              className={`${
-                cancelText !== 'cancel' ? 'btn btn-disabled' : 'btn'
-              }`}
+              // disabled={cancelText == 'cancel' ? false : true}
+              // className={`${cancelText == '' ? 'btn btn-disabled' : 'btn'}`}
+              className='btn'
               onClick={async () => {
                 await handleOrderCancel({ id });
                 setShowModal(false);

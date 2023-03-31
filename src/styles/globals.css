@@ -22,4 +22,7 @@
   input[type='text'] {
     @apply ring-2 ring-[#ff9900] rounded-md p-2;
   }
+  .required {
+    @apply after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm font-medium;
+  }
 }

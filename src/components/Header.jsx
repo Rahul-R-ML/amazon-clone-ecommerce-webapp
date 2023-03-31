@@ -58,16 +58,37 @@ function Header(props) {
 
           {/* Right */}
           <div className='text-white flex items-center text-xs space-x-6 mx-6 whitespace-nowrap'>
+            <div className='link' onClick={() => router.push('/orders')}>
+              <p>Returns</p>
+              <p className='font-extrabold md:text-sm'>& Orders</p>
+            </div>
+            <div
+              onClick={() => router.push('/checkout')}
+              className='relative link flex items-center'
+            >
+              <span
+                className={`absolute top-0 right-0 md:right-10 h-4 ${
+                  items.length >= 10 ? 'w-6' : 'w-4'
+                } bg-yellow-400 text-center rounded-full text-black font-bold`}
+              >
+                {items.length}
+              </span>
+              <ShoppingCartIcon className='h-10' />
+
+              <p className='hidden md:inline font-extrabold md:text-sm mt-2'>
+                Basket
+              </p>
+            </div>
             <div
               onClick={() => {
                 setShowMenu(!showMenu);
               }}
-              className=' cursor-pointer flex justify-center items-center flex-col'
+              className='hover:text-[#ff9900] cursor-pointer flex justify-center items-center flex-col'
             >
-              <p className='hover:underline'>
-                {session ? `Hello, ${session.username}` : ''}
+              <p>{session ? `Hello, ${session.username}` : ''}</p>
+              <p className='font-extrabold md:text-sm'>
+                {session?.username ? 'Account' : 'Login'}
               </p>
-              <p className='font-extrabold md:text-sm'>Account & Lists</p>
               {showMenu && (
                 <Dropdown
                   content={
@@ -91,27 +112,6 @@ function Header(props) {
                   setShow={setShowMenu}
                 />
               )}
-            </div>
-            <div className='link' onClick={() => router.push('/orders')}>
-              <p>Returns</p>
-              <p className='font-extrabold md:text-sm'>& Orders</p>
-            </div>
-            <div
-              onClick={() => router.push('/checkout')}
-              className='relative link flex items-center'
-            >
-              <span
-                className={`absolute top-0 right-0 md:right-10 h-4 ${
-                  items.length >= 10 ? 'w-6' : 'w-4'
-                } bg-yellow-400 text-center rounded-full text-black font-bold`}
-              >
-                {items.length}
-              </span>
-              <ShoppingCartIcon className='h-10' />
-
-              <p className='hidden md:inline font-extrabold md:text-sm mt-2'>
-                Basket
-              </p>
             </div>
           </div>
         </div>

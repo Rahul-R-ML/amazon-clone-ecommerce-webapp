@@ -90,7 +90,9 @@ function signUp() {
       <div className='min-h-[100vh] flex justify-center shadow-xl'>
         <div className='login flex flex-col w-[400px] m-auto  gap-6  rounded-md p-3 shadow-sm'>
           <div className='login__username flex gap-2 flex-col'>
-            <label htmlFor='username'>Username:</label>
+            <label htmlFor='username' className='required'>
+              Username:
+            </label>
             <input
               className='ring-2 ring-[#ff9900] rounded-md p-2'
               id='username'
@@ -111,7 +113,9 @@ function signUp() {
             )}
           </div>
           <div className='flex gap-2 flex-col'>
-            <label htmlFor='email'>Email:</label>
+            <label className='required' htmlFor='email'>
+              Email:
+            </label>
             <input
               className='ring-2 ring-[#ff9900] rounded-md p-2'
               id='username'
@@ -132,7 +136,9 @@ function signUp() {
             )}
           </div>
           <div className='flex gap-2 flex-col'>
-            <label htmlFor='phone'>Phone no:</label>
+            <label className='required' htmlFor='phone'>
+              Phone no:
+            </label>
             <input
               className='ring-2 ring-[#ff9900] rounded-md p-2'
               id='username'
@@ -153,7 +159,9 @@ function signUp() {
             )}
           </div>
           <div className='login__password flex gap-2 flex-col'>
-            <label htmlFor='password'>Password:</label>
+            <label className='required' htmlFor='password'>
+              Password:
+            </label>
             <input
               className='ring-2 ring-[#ff9900] rounded-md p-2'
               id='password'
@@ -174,7 +182,9 @@ function signUp() {
             )}
           </div>
           <div className='login__password flex gap-2 flex-col'>
-            <label htmlFor='confirmPassword'>Confirm Password:</label>
+            <label className='required' htmlFor='confirmPassword'>
+              Confirm Password:
+            </label>
             <input
               className='ring-2 ring-[#ff9900]  rounded-md p-2'
               id='password'
@@ -211,9 +221,9 @@ function signUp() {
               <label>Login</label>
             </div>
             <div>
-              have an account?
+              Have an account?
               <a className='link ml-2' href='/auth/login'>
-                login
+                Login
               </a>
             </div>
           </div>

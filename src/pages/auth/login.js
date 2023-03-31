@@ -68,7 +68,9 @@ export default function Login() {
       <div className='h-[100vh] flex justify-center shadow-xl'>
         <div className='login flex flex-col w-[400px] m-auto  gap-6  rounded-md p-3 shadow-sm'>
           <div className='login__username flex gap-2 flex-col'>
-            <label htmlFor='username'>Username:</label>
+            <label className='required' htmlFor='username'>
+              Username:
+            </label>
             <input
               className='ring-2 ring-[#ff9900] rounded-md p-2'
               id='username'
@@ -87,7 +89,9 @@ export default function Login() {
             )}
           </div>
           <div className='login__password flex gap-2 flex-col'>
-            <label htmlFor='password'>Password:</label>
+            <label className='required' htmlFor='password'>
+              Password:
+            </label>
             <input
               className='ring-2 ring-[#ff9900] rounded-md p-2'
               id='password'
